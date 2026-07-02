@@ -11,6 +11,7 @@ import MyNotes from "./pages/MyNotes"
 import Quiz from "./pages/Quiz"
 import NoteDetails from "./pages/NoteDetails"
 import AITutor from "./pages/AITutor"
+import ComingSoon from "./pages/ComingSoon";
 
 import ProtectedRoute from "./components/ProtectedRoute"
 const API = import.meta.env.VITE_API_URL
@@ -101,6 +102,11 @@ function App() {
         <Route
           path="/ai-tutor/:id"
           element={<AITutor />}
+        />
+
+        <Route
+          path="/coming-soon"
+          element={<ComingSoon />}
         />
 
       </Routes>

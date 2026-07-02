@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom"
 import MainLayout from "../layouts/MainLayout"
 import DashboardCard from "../components/DashboardCard"
+
 const API = import.meta.env.VITE_API_URL
 
 function Dashboard() {
+
+  const navigate = useNavigate()
 
   return (
 
@@ -20,7 +24,7 @@ function Dashboard() {
 
             Your Personalized <br />
 
-             Digital School 🏫
+            Digital School 🏫
 
           </h1>
 
@@ -41,45 +45,53 @@ function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
         <DashboardCard
+          icon="📚📖"
+          title="Upload Notes"
+          description="Upload New notes or experiences."
+          onClick={() => navigate("/upload")}
+        />
+        
+        <DashboardCard
           icon="📚"
           title="My Notes"
           description="Manage and organize all your uploaded learning materials."
+          onClick={() => navigate("/mynotes")}
         />
 
         <DashboardCard
           icon="👨🏻‍🏫"
           title="AI Tutor"
           description="Chat with your AI tutor and ask questions from any topic."
+          onClick={() => navigate("/tutor")}
         />
 
         <DashboardCard
           icon="🌍"
           title="Community"
           description="Explore public notes, discussions and collaborative learning."
+          onClick={() => navigate("/community")}
         />
 
         <DashboardCard
           icon="🧠"
           title="Quiz Mode"
           description="Generate quizzes instantly from your notes and improve retention."
-        />
-
-        <DashboardCard
-          icon="📚📖"
-          title="Open Notes"
-          description="Read notes in immersive digital book experience."
+          onClick={() => navigate("/quiz")}
         />
 
         <DashboardCard
           icon="📈"
           title="Progress Tracking"
           description="Track your learning performance and AI insights."
+          onClick={() => navigate("/coming-soon")}
         />
 
       </div>
 
     </MainLayout>
+
   )
+
 }
 
 export default Dashboard

@@ -3,11 +3,33 @@ function DashboardCard({
   title,
   description,
   icon,
+  onClick,
+
 }) {
 
   return (
 
-    <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+    <div
+
+      onClick={onClick}
+
+      className="
+      bg-white/80
+      backdrop-blur-xl
+      border
+      border-white/20
+      rounded-3xl
+      p-6
+      shadow-sm
+      hover:shadow-xl
+      transition-all
+      duration-300
+      hover:-translate-y-1
+      cursor-pointer
+      active:scale-95
+      "
+
+    >
 
       <div className="text-5xl mb-5">
 
@@ -28,7 +50,9 @@ function DashboardCard({
       </p>
 
     </div>
+
   )
+
 }
 
 export default DashboardCard

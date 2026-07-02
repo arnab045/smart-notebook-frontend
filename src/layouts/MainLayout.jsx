@@ -1,14 +1,20 @@
+import { useState } from "react"
 import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
 
 function MainLayout({ children }) {
+
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
 
     <div className="min-h-screen bg-gradient-to-br from-[#f8f9ff] via-[#eef2ff] to-[#f5f3ff] flex overflow-hidden">
 
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
       {/* Main Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
@@ -18,7 +24,10 @@ function MainLayout({ children }) {
 
           <div className="bg-white/70 backdrop-blur-xl border border-white/30 shadow-sm rounded-3xl">
 
-            <Navbar />
+            <Navbar
+              sidebarOpen={sidebarOpen}
+              setSidebarOpen={setSidebarOpen}
+            />
 
           </div>
 

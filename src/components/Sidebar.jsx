@@ -1,6 +1,9 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-function Sidebar() {
+function Sidebar({
+  sidebarOpen,
+  setSidebarOpen
+}) {
 
   const location = useLocation()
 
@@ -56,7 +59,30 @@ function Sidebar() {
 
   return (
 
-    <aside className="hidden lg:flex flex-col w-72 h-screen sticky top-0 bg-white/80 backdrop-blur-xl border-r border-gray-200 p-6">
+    <aside
+      className={`
+        fixed
+        top-0
+        left-0
+        z-50
+        w-72
+        h-screen
+        bg-white/80
+        backdrop-blur-xl
+        border-r
+        border-gray-200
+        p-6
+        transition-transform
+        duration-300
+        ease-in-out
+
+        ${
+          sidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full"
+        }
+      `}
+    >
 
       {/* Profile */}
       <div className="flex flex-col items-center text-center mb-10">
@@ -130,6 +156,13 @@ function Sidebar() {
 
         🚪 Logout
 
+      </button>
+
+      <button
+        onClick={() => setSidebarOpen(false)}
+        className="absolute top-5 right-5 text-2xl text-gray-500 hover:text-black"
+      >
+        ❌
       </button>
 
     </aside>

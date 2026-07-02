@@ -1,4 +1,7 @@
-function Navbar() {
+function Navbar({
+  sidebarOpen,
+  setSidebarOpen
+}) {
 
   const storedUser = JSON.parse(localStorage.getItem("user"))
 
@@ -10,7 +13,16 @@ function Navbar() {
     <header className="flex justify-between items-center w-full px-6 h-20">
 
       {/* LEFT */}
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-4">
+
+        <button
+          onClick={() =>
+            setSidebarOpen(!sidebarOpen)
+          }
+          className="w-12 h-12 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/30 shadow-sm hover:scale-105 transition-all flex items-center justify-center text-2xl"
+        >
+          ☰
+        </button>
 
         <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-700 to-purple-600 flex items-center justify-center shadow-lg">
 
@@ -32,7 +44,7 @@ function Navbar() {
 
           <p className="text-sm text-gray-500">
 
-            Learn smarter with AI
+            Your Personalised AI Tutor
 
           </p>
 
