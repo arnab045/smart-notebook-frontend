@@ -1,0 +1,383 @@
+import MainLayout from "../layouts/MainLayout"
+import { useEffect, useState } from "react"
+const API = import.meta.env.VITE_API_URL
+
+const scholars = [
+
+  {
+    name: "Sarah Wong",
+    field: "Neuroscience • Harvard",
+  },
+
+  {
+    name: "David Kim",
+    field: "Philosophy • Yale",
+  },
+
+  {
+    name: "Elena Bianchi",
+    field: "Art History • Sorbonne",
+  },
+
+]
+
+function PostCard({ post }) {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+
+    <article className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-white/20 hover:-translate-y-1 transition-all duration-300">
+
+      {/* Header */}
+      <div className="flex justify-between items-start mb-5">
+
+        <div className="flex gap-4">
+
+          <img
+            src={`https://i.pravatar.cc/150?u=${post.name}`}
+            alt={post.name}
+            className="w-14 h-14 rounded-2xl"
+          />
+
+          <div>
+
+            <h3 className="font-bold text-lg text-gray-800">
+
+              {post.name}
+
+            </h3>
+
+            <p className="text-sm text-gray-500">
+
+              {post.user_email}
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <button className="text-indigo-700 font-semibold hover:underline">
+
+          + Follow
+
+        </button>
+
+      </div>
+
+      {/* Content */}
+      <div>
+
+        <span className="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase mb-4">
+
+          Note Shared
+
+        </span>
+
+        <h2 className="text-2xl font-bold text-gray-800 mb-3">
+
+          {post.title}
+
+        </h2>
+
+        <p className="text-gray-600 leading-relaxed mb-5">
+
+  {
+    expanded
+      ? post.content
+      : post.content.slice(0, 250) + "..."
+  }
+
+</p>
+
+<button
+  onClick={() => setExpanded(!expanded)}
+  className="text-purple-600 font-semibold"
+>
+
+  {
+    expanded
+      ? "Show Less"
+      : "See More"
+  }
+
+</button>
+
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between border-t pt-4">
+
+        <div className="flex gap-6 text-gray-500">
+
+          <button className="hover:text-indigo-700 transition-all">
+
+            👍 {post.likes}
+
+          </button>
+
+          <button className="hover:text-indigo-700 transition-all">
+
+            💬 {post.comments}
+
+          </button>
+
+          <button className="hover:text-indigo-700 transition-all">
+
+            🔖 Save
+
+          </button>
+
+        </div>
+
+        <span className="text-sm text-gray-400">
+
+          Recently Shared
+
+        </span>
+
+      </div>
+
+    </article>
+
+  )
+}
+
+function Community() {
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+
+    const fetchPosts = async () => {
+
+      try {
+
+        const response = await fetch(
+          "https://smart-notebook-backend.onrender.com/community/posts"
+        )
+
+        const data = await response.json()
+
+        if (data.success) {
+
+          setPosts(data.posts)
+
+        }
+
+      } catch (error) {
+
+        console.error(error)
+
+      }
+
+    }
+
+    fetchPosts()
+
+  }, [])
+
+  return (
+
+    <MainLayout>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+        {/* FEED */}
+        <div className="xl:col-span-2 space-y-8">
+
+          {/* Filter */}
+          <div className="flex gap-3 overflow-x-auto pb-2">
+
+            <button className="px-5 py-2 rounded-full bg-gradient-to-r from-indigo-700 to-purple-600 text-white whitespace-nowrap">
+
+              All Posts
+
+            </button>
+
+            <button className="px-5 py-2 rounded-full bg-white shadow-md whitespace-nowrap">
+
+              Computer Science
+
+            </button>
+
+            <button className="px-5 py-2 rounded-full bg-white shadow-md whitespace-nowrap">
+
+              Economics
+
+            </button>
+
+            <button className="px-5 py-2 rounded-full bg-white shadow-md whitespace-nowrap">
+
+              Neuroscience
+
+            </button>
+
+          </div>
+
+          {/* Posts */}
+          {posts.map((post, index) => (
+
+            <PostCard key={index} post={post} />
+
+          ))}
+
+        </div>
+
+        {/* RIGHT SIDEBAR */}
+        <div className="hidden xl:block space-y-8">
+
+          {/* Trending */}
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-white/20">
+
+            <h3 className="text-sm uppercase tracking-widest text-gray-500 font-bold mb-6">
+
+              Trending Tags
+
+            </h3>
+
+            <div className="space-y-5">
+
+              <div className="flex justify-between">
+
+                <span>#MachineLearning</span>
+
+                <span className="text-gray-400 text-sm">
+
+                  1.2k
+
+                </span>
+
+              </div>
+
+              <div className="flex justify-between">
+
+                <span>#OrganicChemistry</span>
+
+                <span className="text-gray-400 text-sm">
+
+                  850
+
+                </span>
+
+              </div>
+
+              <div className="flex justify-between">
+
+                <span>#LegalTech</span>
+
+                <span className="text-gray-400 text-sm">
+
+                  620
+
+                </span>
+
+              </div>
+
+              <div className="flex justify-between">
+
+                <span>#StudyTips</span>
+
+                <span className="text-gray-400 text-sm">
+
+                  2.4k
+
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Scholars */}
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-white/20">
+
+            <h3 className="text-sm uppercase tracking-widest text-gray-500 font-bold mb-6">
+
+              Scholars To Follow
+
+            </h3>
+
+            <div className="space-y-5">
+
+              {scholars.map((scholar, index) => (
+
+                <div
+                  key={index}
+                  className="flex items-center gap-4"
+                >
+
+                  <img
+                    src={`https://i.pravatar.cc/100?u=${scholar.name}`}
+                    alt={scholar.name}
+                    className="w-12 h-12 rounded-full"
+                  />
+
+                  <div className="flex-1">
+
+                    <h4 className="font-semibold">
+
+                      {scholar.name}
+
+                    </h4>
+
+                    <p className="text-xs text-gray-500">
+
+                      {scholar.field}
+
+                    </p>
+
+                  </div>
+
+                  <button className="text-indigo-700">
+
+                    +
+
+                  </button>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
+
+          {/* Promo */}
+          <div className="rounded-3xl p-8 bg-gradient-to-br from-indigo-700 to-purple-600 text-white relative overflow-hidden">
+
+            <h3 className="text-2xl font-bold mb-3">
+
+              Join a Study Pod
+
+            </h3>
+
+            <p className="text-sm opacity-90 mb-6">
+
+              Get matched with students in your subject for AI-led deep dives.
+
+            </p>
+
+            <button className="bg-white text-indigo-700 px-5 py-3 rounded-2xl font-bold">
+
+              Start Matching
+
+            </button>
+
+            <div className="absolute -bottom-10 -right-10 text-[120px] opacity-10">
+
+              ✨
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </MainLayout>
+
+  )
+}
+
+export default Community
