@@ -24,6 +24,7 @@ const scholars = [
 function PostCard({ post }) {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(post.likes)
+  const [liked, setLiked] = useState(post.liked)
 
   const handleLike = async () => {
 
@@ -63,7 +64,9 @@ function PostCard({ post }) {
 
     if (data.success) {
 
-      setLikes(likes + 1)
+      setLiked(data.liked)
+
+      setLikes(data.likes)
 
     }
 
@@ -157,10 +160,10 @@ function PostCard({ post }) {
 
           <button
             onClick={handleLike}
-            className="hover:text-indigo-700 transition-all"
+            className="hover:text-purple-600 transition-all"
           >
 
-            💜 {likes}
+            {liked ? "💜" : "🤍"} {likes}
 
           </button>
 
@@ -199,8 +202,17 @@ function Community() {
 
       try {
 
+        const storedUser = JSON.parse(
+          localStorage.getItem("user")
+        )
+
+        const email =
+          storedUser?.user?.email || ""
+
         const response = await fetch(
-          `${API}/community/posts`
+
+          `${API}/community/posts?user_email=${email}`
+
         )
 
         const data = await response.json()
