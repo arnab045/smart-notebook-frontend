@@ -23,6 +23,51 @@ const scholars = [
 
 function PostCard({ post }) {
   const [expanded, setExpanded] = useState(false)
+  const [likes, setLikes] = useState(post.likes)
+
+  const handleLike = async () => {
+
+    const storedUser = JSON.parse(
+      localStorage.getItem("user")
+    )
+
+    if (!storedUser) return
+
+    const response = await fetch(
+
+      `${API}/community/like`,
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+          note_id: post.id,
+
+          user_email: storedUser.user.email
+
+        })
+
+      }
+
+    )
+
+    const data = await response.json()
+
+    if (data.success) {
+
+      setLikes(likes + 1)
+
+    }
+
+  }
 
   return (
 
@@ -110,9 +155,12 @@ function PostCard({ post }) {
 
         <div className="flex gap-6 text-gray-500">
 
-          <button className="hover:text-indigo-700 transition-all">
+          <button
+            onClick={handleLike}
+            className="hover:text-indigo-700 transition-all"
+          >
 
-            👍 {post.likes}
+            💜 {likes}
 
           </button>
 
@@ -152,7 +200,7 @@ function Community() {
       try {
 
         const response = await fetch(
-          "https://smart-notebook-backend.onrender.com/community/posts"
+          `${API}/community/posts`
         )
 
         const data = await response.json()
