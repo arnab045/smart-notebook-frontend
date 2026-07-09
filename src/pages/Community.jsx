@@ -34,6 +34,11 @@ function PostCard({ post }) {
   useState(post.comments)
 
   const [newComment, setNewComment] = useState("")
+  const [showSave, setShowSave] = useState(false)
+
+  const [saveTitle, setSaveTitle] = useState(post.title)
+
+  const [saveSubject, setSaveSubject] = useState(post.subject)
 
   const handleLike = async () => {
 
@@ -149,6 +154,54 @@ function PostCard({ post }) {
 
   }
 
+  const handleSave = async () => {
+
+    const storedUser = JSON.parse(
+      localStorage.getItem("user")
+    )
+
+    const response = await fetch(
+
+      `${API}/community/save`,
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+          user_email: storedUser.user.email,
+
+          title: saveTitle,
+
+          subject: saveSubject,
+
+          content: post.content
+
+        })
+
+      }
+
+    )
+
+    const data = await response.json()
+
+    if (data.success) {
+
+      alert("✅ Note saved successfully")
+
+      setShowSave(false)
+
+    }
+
+  }
+
   return (
 
     <article className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-white/20 hover:-translate-y-1 transition-all duration-300">
@@ -259,7 +312,10 @@ function PostCard({ post }) {
 
           </button>
 
-          <button className="hover:text-indigo-700 transition-all">
+          <button
+            onClick={() => setShowSave(true)}
+            className="hover:text-indigo-700 transition-all"
+          >
 
             🔖 Save
 
@@ -380,6 +436,86 @@ className="px-4 py-2"
       </div>
 
       )
+      }
+
+      {
+        showSave && (
+
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+            <div className="bg-white rounded-3xl w-[500px] p-6">
+
+              <h2 className="text-2xl font-bold mb-5">
+
+                Save Note
+
+              </h2>
+
+              <div className="space-y-4">
+
+                <div>
+
+                  <label className="block text-sm text-gray-500 mb-2">
+
+                    Title
+
+                  </label>
+
+                  <input
+                    type="text"
+                    value={saveTitle}
+                    onChange={(e) => setSaveTitle(e.target.value)}
+                    className="w-full border rounded-xl p-3"
+                  />
+
+                </div>
+
+                <div>
+
+                  <label className="block text-sm text-gray-500 mb-2">
+
+                    Subject
+
+                  </label>
+
+                  <input
+                    type="text"
+                    value={saveSubject}
+                    onChange={(e) => setSaveSubject(e.target.value)}
+                    className="w-full border rounded-xl p-3"
+                  />
+
+                </div>
+
+              </div>
+
+              <div className="flex justify-end gap-3 mt-6">
+
+                <button
+                  onClick={() => setShowSave(false)}
+                  className="px-5 py-2 rounded-xl border"
+                >
+
+                  Cancel
+
+                </button>
+
+                <button
+                  onClick={handleSave}
+                  className="px-5 py-2 rounded-xl bg-purple-600 text-white"
+                >
+
+                  Save
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        )
       }
 
     </article>
