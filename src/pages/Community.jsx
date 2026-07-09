@@ -26,6 +26,15 @@ function PostCard({ post }) {
   const [likes, setLikes] = useState(post.likes)
   const [liked, setLiked] = useState(post.liked)
 
+  const [showComments, setShowComments] = useState(false)
+
+  const [comments, setComments] = useState([])
+
+  const [commentCount, setCommentCount] =
+  useState(post.comments)
+
+  const [newComment, setNewComment] = useState("")
+
   const handleLike = async () => {
 
     const storedUser = JSON.parse(
@@ -67,6 +76,74 @@ function PostCard({ post }) {
       setLiked(data.liked)
 
       setLikes(data.likes)
+
+    }
+
+  }
+
+  const loadComments = async () => {
+
+    const response = await fetch(
+
+      `${API}/community/comments/${post.id}`
+
+    )
+
+    const data = await response.json()
+
+    if (data.success) {
+
+      setComments(data.comments)
+
+    }
+
+  }
+
+  const handleComment = async () => {
+
+    const storedUser = JSON.parse(
+      localStorage.getItem("user")
+    )
+
+    if (!newComment.trim()) return
+
+    const response = await fetch(
+
+      `${API}/community/comment`,
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json"
+
+          },
+
+        body: JSON.stringify({
+
+          note_id: post.id,
+
+          user_email: storedUser.user.email,
+
+          comment: newComment
+
+        })
+
+      }
+
+    )
+
+    const data = await response.json()
+
+    if (data.success) {
+
+      setComments(data.comments)
+
+      setCommentCount(data.comments.length)
+
+      setNewComment("")
 
     }
 
@@ -167,9 +244,18 @@ function PostCard({ post }) {
 
           </button>
 
-          <button className="hover:text-indigo-700 transition-all">
+          <button
+            onClick={async () => {
 
-            💬 {post.comments}
+              await loadComments()
+
+              setShowComments(true)
+
+            }}
+            className="hover:text-indigo-700 transition-all"
+          >
+
+            💬 {commentCount}
 
           </button>
 
@@ -188,6 +274,113 @@ function PostCard({ post }) {
         </span>
 
       </div>
+
+      {
+      showComments && (
+
+      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+      <div className="bg-white rounded-3xl w-[500px] p-6">
+
+      <h2 className="text-2xl font-bold mb-4">
+
+      Comments
+
+      </h2>
+
+      <div className="space-y-3 max-h-72 overflow-y-auto">
+
+      {
+
+      comments.map(
+
+      (c,index)=>(
+
+      <div
+      key={index}
+      className="bg-slate-100 rounded-xl p-3"
+      >
+
+      <p className="text-xs text-gray-500">
+
+      {c.user_email}
+
+      </p>
+
+      <p>
+
+      {c.comment}
+
+      </p>
+
+      </div>
+
+      )
+
+      )
+
+      }
+
+      </div>
+
+      <textarea
+
+      value={newComment}
+
+onChange={(e)=>
+
+setNewComment(
+
+e.target.value
+
+)
+
+}
+
+placeholder="Write a comment..."
+
+className="w-full border rounded-xl p-3 mt-4"
+
+      />
+
+      <div className="flex justify-end gap-3 mt-4">
+
+      <button
+
+      onClick={()=>
+
+setShowComments(false)
+
+}
+
+className="px-4 py-2"
+
+      >
+
+      Close
+
+      </button>
+
+      <button
+
+      onClick={handleComment}
+
+      className="px-4 py-2 bg-purple-600 text-white rounded-xl"
+
+      >
+
+      Post
+
+      </button>
+
+      </div>
+
+      </div>
+
+      </div>
+
+      )
+      }
 
     </article>
 
