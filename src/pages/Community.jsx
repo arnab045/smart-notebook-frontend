@@ -202,6 +202,46 @@ function PostCard({ post }) {
 
   }
 
+  const openOriginalNote = () => {
+
+    window.open(
+
+      `/note/${post.id}`,
+
+      "_blank"
+
+    )
+
+  }
+
+    if (post.pdf_path) {
+
+      window.open(
+
+        `${API}/${post.pdf_path}`,
+
+        "_blank"
+
+      )
+
+      return
+
+    }
+
+    if (post.original_file_path) {
+
+      window.open(
+
+        `${API}/${post.original_file_path}`,
+
+        "_blank"
+
+      )
+
+    }
+
+  }
+
   return (
 
     <article className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-white/20 hover:-translate-y-1 transition-all duration-300">
@@ -258,28 +298,110 @@ function PostCard({ post }) {
 
         </h2>
 
-        <p className="text-gray-600 leading-relaxed mb-5">
+        {
+          post.file_type === "text" ? (
 
-  {
-    expanded
-      ? post.content
-      : post.content.slice(0, 250) + "..."
-  }
+            <>
 
-</p>
+              <p className="text-gray-600 leading-relaxed mb-5">
 
-<button
-  onClick={() => setExpanded(!expanded)}
-  className="text-purple-600 font-semibold"
->
+                {
+                  expanded
+                    ? post.content
+                    : post.content.slice(0, 250) + "..."
+                }
 
-  {
-    expanded
-      ? "Show Less"
-      : "See More"
-  }
+              </p>
 
-</button>
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="text-purple-600 font-semibold"
+              >
+
+                {
+                  expanded
+                    ? "Show Less"
+                    : "See More"
+                }
+
+              </button>
+
+              <button
+                onClick={openOriginalNote}
+                className="mt-4 text-indigo-600 font-semibold hover:underline"
+              >
+
+                📖 Open Original Note
+
+              </button>
+
+            </>
+
+          ) : post.file_type === "pdf" ? (
+
+            <div
+              onClick={openOriginalNote}
+              className="bg-slate-100 rounded-2xl p-6 mt-4 cursor-pointer hover:bg-slate-200 transition"
+            >
+
+              <div className="text-5xl mb-3">
+
+                📄
+
+              </div>
+
+              <h3 className="font-bold text-lg">
+
+                PDF Document
+
+              </h3>
+
+              <p className="text-gray-500">
+
+                Click below to open the original PDF.
+
+              </p>
+
+              <div
+                onClick={openOriginalNote}
+                className="mt-4 text-indigo-600 font-semibold cursor-pointer"
+              >
+
+                📖 Open Original Note
+
+              </div>
+
+            </div>
+
+          ) : (
+
+            <div
+              onClick={openOriginalNote}
+              className="bg-slate-100 rounded-2xl p-6 mt-4 cursor-pointer hover:bg-slate-200 transition"
+            >
+
+              <div className="text-5xl mb-3">
+
+                🖼️
+
+              </div>
+
+              <h3 className="font-bold text-lg">
+
+                Image Note
+
+              </h3>
+
+              <p className="text-gray-500">
+
+                Click below to view the original image.
+
+              </p>
+
+            </div>
+
+          )
+        }
 
       </div>
 
