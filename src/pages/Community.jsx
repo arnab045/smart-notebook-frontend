@@ -214,34 +214,6 @@ function PostCard({ post }) {
 
   }
 
-    if (post.pdf_path) {
-
-      window.open(
-
-        `${API}/${post.pdf_path}`,
-
-        "_blank"
-
-      )
-
-      return
-
-    }
-
-    if (post.original_file_path) {
-
-      window.open(
-
-        `${API}/${post.original_file_path}`,
-
-        "_blank"
-
-      )
-
-    }
-
-  }
-
   return (
 
     <article className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-white/20 hover:-translate-y-1 transition-all duration-300">
@@ -346,7 +318,7 @@ function PostCard({ post }) {
 
               <div className="text-5xl mb-3">
 
-                📄
+                📑
 
               </div>
 
@@ -358,7 +330,7 @@ function PostCard({ post }) {
 
               <p className="text-gray-500">
 
-                Click below to open the original PDF.
+                click to view
 
               </p>
 
@@ -382,7 +354,7 @@ function PostCard({ post }) {
 
               <div className="text-5xl mb-3">
 
-                🖼️
+                📄
 
               </div>
 
@@ -394,7 +366,7 @@ function PostCard({ post }) {
 
               <p className="text-gray-500">
 
-                Click below to view the original image.
+                click to view
 
               </p>
 
