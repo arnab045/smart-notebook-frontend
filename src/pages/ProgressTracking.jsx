@@ -169,7 +169,7 @@ function Hero({ quizResults, habitLogs, activity, overview }) {
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
           <Sparkles className="h-3.5 w-3.5" /> Smart Notebook AI
         </span>
-        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight text-white">Welcome back, Arnab</h1>
+        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight text-white">Your Progress</h1>
         <p className="mt-2 max-w-xl text-blue-50/90">Here's your study progress — automatically tracked from Quiz Generator, Einstein Classroom, and your uploaded notes.</p>
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-2xl">
           {stats.map(({ icon: Icon, label, value }, i) => (
