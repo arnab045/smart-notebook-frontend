@@ -83,7 +83,7 @@ function Dashboard() {
           icon="📈"
           title="Progress Tracking"
           description="Track your learning performance and AI insights."
-          onClick={() => navigate("/coming-soon")}
+          onClick={() => navigate("/progress")}
         />
 
       </div>

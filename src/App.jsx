@@ -11,7 +11,7 @@ import MyNotes from "./pages/MyNotes"
 import Quiz from "./pages/Quiz"
 import NoteDetails from "./pages/NoteDetails"
 import AITutor from "./pages/AITutor"
-import ComingSoon from "./pages/ComingSoon";
+import ProgressTracking from "./pages/ProgressTracking"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 const API = import.meta.env.VITE_API_URL
@@ -105,8 +105,11 @@ function App() {
         />
 
         <Route
-          path="/coming-soon"
-          element={<ComingSoon />}
+
+          path="/progress"
+
+          element={<ProgressTracking/>}
+
         />
 
       </Routes>

@@ -728,7 +728,7 @@ if (!questions.length && !started) {
 
                       {index + 1}. {item.question}
 
-                    `</h3>
+                    </h3>
 
                     <p>
 
